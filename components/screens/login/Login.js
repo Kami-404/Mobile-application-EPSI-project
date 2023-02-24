@@ -1,76 +1,81 @@
-import React from "react";
-import { View, Text, StyleSheet, TextInput, Button } from 'react-native';
-import LoginImage from "./Login_image";
+import React, { useState } from 'react';
+import { StyleSheet, Text, View, TextInput, TouchableOpacity } from 'react-native';
+import SQLite from 'react-native-sqlite-storage';
+import LoginImage from 'Login_image.js'
 
-export default class Login extends React.Component {
+const db = SQLite.openDatabase({name: 'database.db'});
 
-    state={
-        mail: '',
-        pwd: ''
-    }
-    handleMail = (text) => {
-        this.setState({ mail: text})
-    }
-    handlePwd = (text) => {
-        this.setState({ pwd: text})
-    }   
+export default function LoginScreen({ navigation }) {
 
-    render(){
-        return (
-            <View style={style.view}>
-                <LoginImage />
-                <Text style={style.title}>
-                    Bienvenue sur A'Rosa-je !
-                </Text>
-                <TextInput
-                    style={style.input}
-                    placeholder="Identifiants"
-                    keyboardType="text">
-                </TextInput>
-                <TextInput
-                    secureTextEntry={true}
-                    style={style.input}
-                    placeholder="Mots de passe"
-                    keyboardType="password">
-                </TextInput>
-                <Button
-                    onPress={() => this.loginHome()}
-                    title="Connexion">
-                </Button>
-                    <Text style={style.text}>Ou</Text>
-                <Button
-                    color= "#FF5C2C"
-                    title="Google"
-                    onPress={() => {Linking.openURL("https://accounts.google.com/v3/signin/identifier?dsh=S218827057%3A1675598504973842&continue=https%3A%2F%2Fmail.google.com%2Fmail%2F%26ogbl%2F&emr=1&ltmpl=default&ltmplcache=2&osid=1&passive=true&rm=false&scc=1&service=mail&ss=1&flowName=GlifWebSignIn&flowEntry=ServiceLogin&ifkv=AWnogHcJGIJLEhpSlA_mmu4UiWKuQ5mYyRyt1y9lqD2oubTGsnMmpPHoyTBCracfXbtxF1THsUXdKg")}}>
-                </Button>
-                <Text style={style.text}>{"\n"}Inscription</Text>
-            </View>
-            
-        )
-    }
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+
+  function handleLogin() {
+    db.transaction((tx) => {
+      tx.executeSql(
+        'SELECT * FROM users WHERE username = ? AND password = ?',
+        [username, password],
+        (tx, results) => {
+          if (results.rows.length > 0) {
+            navigation.navigate('Home');
+          } else {
+            alert('Username or password is incorrect.');
+          }
+        }
+      );
+    });
+  }
+
+  return (
+    <View style={styles.container}>
+        <LoginImage />
+      <Text style={styles.title}>Login</Text>
+      <TextInput
+        style={styles.input}
+        placeholder="Username"
+        onChangeText={(text) => setUsername(text)}
+      />
+      <TextInput
+        style={styles.input}
+        placeholder="Password"
+        secureTextEntry={true}
+        onChangeText={(text) => setPassword(text)}
+      />
+      <TouchableOpacity style={styles.button} onPress={handleLogin}>
+        <Text style={styles.buttonText}>Login</Text>
+      </TouchableOpacity>
+    </View>
+  );
 }
 
-
-const style = StyleSheet.create({
-
-    login: {
-        width: 66,
-        height: 58,
-    },
-    
-    title: {
-        fontSize: 22,
-        marginBottom: 20
-    },
-
-    input: {
-        height: 40,
-        margin: 12,
-        borderWidth: 1,
-        padding: 10,
-      },
-    
-    text: {
-        textAlign: 'center'
-    }
-})
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#fff',
+  },
+  title: {
+    fontSize: 24,
+    marginBottom: 20,
+  },
+  input: {
+    borderWidth: 1,
+    borderColor: '#777',
+    padding: 8,
+    margin: 10,
+    width: 200,
+  },
+  button: {
+    backgroundColor: 'blue',
+    padding: 10,
+    borderRadius: 5,
+    marginTop: 20,
+  },
+  buttonText: {
+    color: '#fff',
+    fontSize: 16,
+    fontWeight: 'bold',
+    textAlign: 'center',
+  },
+});

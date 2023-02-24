@@ -4,9 +4,5 @@ import SQLite from 'react-native-sqlite-storage';
 
 export default class Registration extends Component {
 
-    
-
-
-
 
 }
