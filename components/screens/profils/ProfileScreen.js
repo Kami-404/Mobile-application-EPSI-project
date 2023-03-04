@@ -5,17 +5,17 @@ import { Avatar, Rating } from 'react-native-elements';
 const data = [
   {
     id: '1',
-    title: 'Article 1',
+    title: 'Plante 1',
     content: 'Ceci est le contenu de l\'article 1',
   },
   {
     id: '2',
-    title: 'Article 2',
+    title: 'Plante 2',
     content: 'Ceci est le contenu de l\'article 2',
   },
   {
     id: '3',
-    title: 'Article 3',
+    title: 'Plante 3',
     content: 'Ceci est le contenu de l\'article 3',
   },
 ];
@@ -36,7 +36,7 @@ const ProfileScreen = () => {
         startingValue={4.5}
         style={{ marginTop: 10 }}
       />
-      <Text style={{ fontSize: 20, marginTop: 20 }}>Mes articles:</Text>
+      <Text style={{ fontSize: 20, marginTop: 20 }}>Mes Plantes:</Text>
       <FlatList
         data={data}
         keyExtractor={(item) => item.id}
