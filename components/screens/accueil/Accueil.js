@@ -48,8 +48,7 @@ export default function Accueil() {
       <View style={styles.header}>
         <TouchableOpacity
           style={styles.addButton}
-          onPress={handleOpenModal}
-        >
+          onPress={handleOpenModal}>
           <Text style={styles.addButtonLabel}>Nouveau</Text>
         </TouchableOpacity>
       </View>
@@ -65,8 +64,7 @@ export default function Accueil() {
                 </View>
                 <TouchableOpacity
                   style={styles.moreOptions}
-                  onPress={() => setSelectedArticle(article)}
-                >
+                  onPress={() => setSelectedArticle(article)}>
                   <Text>...</Text>
                 </TouchableOpacity>
               </View>
