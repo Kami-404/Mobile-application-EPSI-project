@@ -1,57 +1,99 @@
-import React from 'react';
-import { View, Text, Image, FlatList } from 'react-native';
-import { Avatar, Rating } from 'react-native-elements';
-
-const data = [
-  {
-    id: '1',
-    title: 'Plante 1',
-    content: 'Ceci est le contenu de l\'article 1',
-  },
-  {
-    id: '2',
-    title: 'Plante 2',
-    content: 'Ceci est le contenu de l\'article 2',
-  },
-  {
-    id: '3',
-    title: 'Plante 3',
-    content: 'Ceci est le contenu de l\'article 3',
-  },
-];
+import React, { useState } from 'react';
+import { View, Text, Image, TouchableOpacity, StyleSheet } from 'react-native';
 
 const ProfileScreen = () => {
+  const [activeTab, setActiveTab] = useState('activite');
+
+  const handleTabChange = (tab) => {
+    setActiveTab(tab);
+  };
+
   return (
-    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-      <Avatar
-        rounded
-        source={{ uri: 'https://randomuser.me/api/portraits/men/1.jpg' }}
-        size="xlarge"
-        containerStyle={{ marginBottom: 10 }}
-      />
-      <Text style={{ fontSize: 24 }}>John Doe</Text>
-      <Rating
-        imageSize={20}
-        readonly
-        startingValue={4.5}
-        style={{ marginTop: 10 }}
-      />
-      <Text style={{ fontSize: 20, marginTop: 20 }}>Mes Plantes:</Text>
-      <FlatList
-        data={data}
-        keyExtractor={(item) => item.id}
-        renderItem={({ item }) => (
-          <View style={{ marginVertical: 10 }}>
-            <Text style={{ fontSize: 18, fontWeight: 'bold' }}>
-              {item.title}
-            </Text>
-            <Text style={{ fontSize: 16 }}>{item.content}</Text>
-          </View>
-        )}
-        style={{ marginTop: 20 }}
-      />
+    <View style={styles.container}>
+      <View style={styles.topSection}>
+        <View style={styles.profileImageContainer}>
+          <Image
+            source={require('./image2.png')}
+            style={styles.profileImage}
+          />
+        </View>
+        <Text style={styles.profileName}>John Smith</Text>
+      </View>
+
+      <View style={styles.bottomSection}>
+        <TouchableOpacity
+          style={[
+            styles.tabButton,
+            activeTab === 'activite' ? styles.activeTab : null,]}
+            onPress={() => handleTabChange('activite')}>
+          <Text style={styles.tabButtonText}>Activité</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={[
+            styles.tabButton,
+            activeTab === 'a_propos' ? styles.activeTab : null,]}
+          onPress={() => handleTabChange('a_propos')}>
+          <Text style={styles.tabButtonText}>A propos</Text>
+        </TouchableOpacity>
+      </View>
+
+      {activeTab === 'activite' ? (
+        <View style={styles.contentContainer}>
+          <Text>Page activité</Text>
+        </View>
+        ) : (
+        <View style={styles.contentContainer}>
+          <Text>Page à propos</Text>
+        </View>
+      )}
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+  topSection: {
+    backgroundColor: 'linear-gradient(FROM_GREEN_TO_WHITE)',
+    alignItems: 'center',
+    paddingVertical: 20,
+  },
+  profileImageContainer: {
+    borderRadius: 50,
+    overflow: 'hidden',
+    marginBottom: 10,
+  },
+  profileImage: {
+    width: 100,
+    height: 100,
+  },
+  profileName: {
+    fontSize: 20,
+    fontWeight: 'bold',
+  },
+  bottomSection: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    backgroundColor: 'white',
+    paddingVertical: 10,
+  },
+  tabButton: {
+    flex: 1,
+    alignItems: 'center',
+    paddingVertical: 10,
+  },
+  activeTab: {
+    borderBottomWidth: 2,
+    borderBottomColor: 'green',
+  },
+  tabButtonText: {
+    fontSize: 16,
+  },
+  contentContainer: {
+    flex: 1,
+    padding: 20,
+  },
+});
 
 export default ProfileScreen;
