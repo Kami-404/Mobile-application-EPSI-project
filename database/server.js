@@ -42,6 +42,43 @@ dashboardConnection.connect((err) => {
   }
 });
 
+app.post('/login', (req, res) => {
+  const { username, password } = req.body;
+
+  connection.query('SELECT * FROM users WHERE username = ? AND password = ?', [username, password], (err, results) => {
+    if (err) {
+      console.error('Error while querying users:', err);
+      res.status(500).json({ error: 'Error while querying users' });
+    } else {
+      if (results.length > 0) {
+        res.status(200).json({ success: true, user: results[0] });
+      } else {
+        res.status(401).json({ error: 'Invalid credentials' });
+      }
+    }
+  });
+});
+
+app.post('/signup', (req, res) => {
+  const {
+    username, password, firstName, lastName, age, phoneNumber, email, address, postalCode, city,
+  } = req.body;
+
+  const newUser = {
+    username, password, firstName, lastName, age, phoneNumber, email, address, postalCode, city,
+  };
+
+  connection.query('INSERT INTO users SET ?', newUser, (err, result) => {
+    if (err) {
+      console.error('Error while inserting new user:', err);
+      res.status(500).json({ error: 'Error while inserting new user' });
+    } else {
+      console.log('New user successfully inserted with ID :', result.insertId);
+      res.status(200).json({ success: true });
+    }
+  });
+});
+
 app.post('/articles', (req, res) => {
   const { title, description, photo } = req.body;
 
