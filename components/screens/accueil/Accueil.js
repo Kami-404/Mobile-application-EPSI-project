@@ -19,7 +19,7 @@ const handleSubmit = () => {
     createdAt: new Date(),
   };
 
-  fetch('http://192.168.56.1:3001/articles', {
+  fetch('http://localhost:3001/articles', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
