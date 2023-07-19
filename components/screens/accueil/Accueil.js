@@ -11,19 +11,36 @@ export default function Accueil() {
   const [modalVisible, setModalVisible] = useState(false);
   const [selectedArticle, setSelectedArticle] = useState(null);
 
-  const handleSubmit = () => {
-    const newArticle = {
-      title,
-      description,
-      photo,
-      createdAt: new Date(),
-    };
-    setArticles([...articles, newArticle]);
-    setTitle("");
-    setDescription("");
-    setPhoto("");
-    setModalVisible(false);
+const handleSubmit = () => {
+  const newArticle = {
+    title,
+    description,
+    photo,
+    createdAt: new Date(),
   };
+
+  fetch('http://192.168.56.1:3001/articles', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(newArticle),
+  })
+    .then(response => response.json())
+    .then(data => {
+      console.log('Server response :', data);
+    })
+    .catch(error => {
+      console.error('Error while creating the article :', error);
+    });
+
+  setArticles([...articles, newArticle]);
+
+  setTitle("");
+  setDescription("");
+  setPhoto("");
+  setModalVisible(false);
+};
 
   const handleDetails = (article) => {
     const createdAt = article.createdAt.toLocaleString();
@@ -106,17 +123,17 @@ export default function Accueil() {
             style={styles.input}
             placeholder="Nom de la plante"
             value={title}
-            onChangeText={setTitle}/>
+            onChangeText={text => setTitle(text)}/>
           <TextInput
             style={styles.input}
             placeholder="Description"
             value={description}
-            onChangeText={setDescription}/>
+            onChangeText={text => setDescription(text)}/>
           <TextInput
             style={styles.input}
             placeholder="Photo"
             value={photo}
-            onChangeText={setPhoto}/>
+            onChangeText={text => setPhoto(text)}/>
           <Button title="Ajouter" onPress={handleSubmit} />
           <Button title="Annuler" onPress={handleCloseModal} />
         </View>
