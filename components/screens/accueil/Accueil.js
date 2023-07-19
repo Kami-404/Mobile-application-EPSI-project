@@ -19,12 +19,33 @@ const handleSubmit = () => {
     createdAt: new Date(),
   };
 
+  const ArticleDashboard = {
+    title,
+    description,
+    createdAt: new Date(),
+  };
+
   fetch('http://localhost:3001/articles', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify(newArticle),
+  })
+    .then(response => response.json())
+    .then(data => {
+      console.log('Server response :', data);
+    })
+    .catch(error => {
+      console.error('Error while creating the article :', error);
+    });
+
+    fetch('http://localhost:3001/article', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(ArticleDashboard),
   })
     .then(response => response.json())
     .then(data => {

@@ -59,18 +59,34 @@ app.post('/articles', (req, res) => {
     } else {
       console.log('New article successfully added to arosaje_app with ID :', result.insertId);
 
-      dashboardConnection.query('INSERT INTO articles SET ?', newArticle, (err, result) => {
-        if (err) {
-          console.error('Error while adding item to arosaje_dashboard', err);
-          res.status(500).json({ error: 'Error while adding item to arosaje_dashboard' });
-        } else {
-          console.log('New article successfully added to arosaje_dashboard with ID :', result.insertId);
-          res.status(200).json({ success: true });
-        }
-      });
     }
   });
 });
+
+app.post('/article', (req, res) => {
+  const { title, description } = req.body;
+
+  const newArticle = {
+    title,
+    description,
+    createdAt: new Date(),
+  };
+
+  dashboardConnection.query('INSERT INTO articles SET ?', newArticle, (err, result) => {
+    if (err) {
+      console.error('Error while adding item to arosaje_dashboard', err);
+      res.status(500).json({ error: 'Error while adding item to arosaje_dashboard' });
+    } else {
+      console.log('New article successfully added to arosaje_dashboard without photo and with ID :', result.insertId);
+      res.status(200).json({ success: true });
+    }
+  });
+});
+
+
+
+
+ 
 
 app.listen(port, () => {
   console.log(`Server running on http://localhost:${port}`);
