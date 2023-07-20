@@ -117,10 +117,6 @@ export default function SignupModal() {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
-    paddingTop: 20,
+    backgroundColor: "black",
   }
 })

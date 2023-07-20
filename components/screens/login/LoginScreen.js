@@ -1,5 +1,10 @@
 import React, { useState } from 'react';
 import { View, TextInput, Button, StyleSheet } from 'react-native';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import Accueil from '../../screens/accueil/Accueil';
+import ProfileScreen from '../../screens/profils/ProfileScreen';
+
+const Tab = createBottomTabNavigator();
 
 export default function LoginScreen({ onLogin }) {
   const [username, setUsername] = useState('');
@@ -22,6 +27,9 @@ export default function LoginScreen({ onLogin }) {
 
       if (response.ok) {
         console.log('Connexion réussie:', data);
+        <Tab.Navigator>
+                    <Tab.Screen name="Accueil" component={ProfileScreen} />
+        </Tab.Navigator>
       } else {
         console.log('Échec de la connexion:', data.error);
       }
@@ -69,12 +77,13 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   input: {
-    width: '100%',
+    width: 150,
     height: 40,
     borderColor: 'gray',
     borderWidth: 1,
     paddingHorizontal: 10,
     marginBottom: 20,
+    textAlign: "center",
   },
   buttonContainer: {
     width: '100%',
