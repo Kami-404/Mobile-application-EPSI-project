@@ -7,6 +7,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import ProfileScreen from './components/screens/profils/ProfileScreen';
 import CameraScreen from './components/screens/camera/CameraScreen';
+import withPerformanceMonitor from 'react-native-performance-monitor/provider';
 
 const tab = createBottomTabNavigator();
 
@@ -40,3 +41,5 @@ export default class App extends React.Component {
     )
   }
 }
+
+export default withPerformanceMonitor({WrappedComponent: Accueil, id: 'Accueil'});
