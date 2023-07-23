@@ -15,6 +15,9 @@ export default class Map extends React.Component {
                     latitudeDelta: 0.0922,
                     longitudeDelta: 0.0421,
                   }}>
+
+
+
                     <Marker
                     coordinate={{
                         latitude: 48.87439445442854,
@@ -43,7 +46,10 @@ export default class Map extends React.Component {
                     }}
                     image={require("./ping.png")}
                     />
+
+
                   </MapView>
+
 
             </View>
         )

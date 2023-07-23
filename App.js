@@ -8,7 +8,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import ProfileScreen from './components/screens/profils/ProfileScreen';
 import CameraScreen from './components/screens/camera/CameraScreen';
 import LoginScreen from './components/screens/login/Login'
-
+import Bienvenue from './components/screens/Bienvenue/Accueil';
 const tab = createBottomTabNavigator();
 
 export default class App extends React.Component {
@@ -31,9 +31,13 @@ export default class App extends React.Component {
                 else if (route.name == "LoginScreen"){
                           iconName = "login"
                                 }
+                else if (route.name == "Bienvenue"){
+                                                          iconName = "Bienvenue"
+                                                                }
                 return <Ionicons name={iconName} size={25} color="#3CB371" />
               }
             })}>
+                        <tab.Screen name='Bienvenue' component={Bienvenue}/>
             <tab.Screen name='login' component={LoginScreen}/>
                        <tab.Screen name='Accueil' component={Accueil}/>
             <tab.Screen name='Map' component={Map}/>
