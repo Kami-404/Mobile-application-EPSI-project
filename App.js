@@ -42,4 +42,3 @@ export default class App extends React.Component {
   }
 }
 
-export default withPerformanceMonitor({WrappedComponent: Accueil, id: 'Accueil'});
