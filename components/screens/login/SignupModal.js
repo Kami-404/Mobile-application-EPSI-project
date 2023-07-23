@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { View, TextInput, Button, StyleSheet } from 'react-native';
 
-export default function SignupModal() {
+export default function SignupModal({ onSignup }) {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
@@ -35,6 +35,7 @@ export default function SignupModal() {
 
       if (response.ok) {
         console.log('Inscription réussie:', data);
+        onSignup();
       } else {
         console.log('Erreur lors de l\'inscription:', data.error);
       }
@@ -50,63 +51,74 @@ export default function SignupModal() {
           style={styles.input}
           placeholder="Username"
           onChangeText={setUsername}
-          value={username}/>
+          value={username}
+        />
         <TextInput
           style={styles.input}
           placeholder="Password"
           onChangeText={setPassword}
           value={password}
-          secureTextEntry/>
+          secureTextEntry
+        />
         <TextInput
           style={styles.input}
           placeholder="Confirm Password"
           onChangeText={setConfirmPassword}
           value={confirmPassword}
-          secureTextEntry/>
+          secureTextEntry
+        />
         <TextInput
           style={styles.input}
           placeholder="First Name"
           onChangeText={setFirstName}
-          value={firstName}/>
+          value={firstName}
+        />
         <TextInput
           style={styles.input}
           placeholder="Last Name"
           onChangeText={setLastName}
-          value={lastName}/>
+          value={lastName}
+        />
         <TextInput
           style={styles.input}
           placeholder="Age"
           onChangeText={setAge}
           value={age}
-          keyboardType="numeric"/>
+          keyboardType="numeric"
+        />
         <TextInput
           style={styles.input}
           placeholder="Phone Number"
           onChangeText={setPhoneNumber}
           value={phoneNumber}
-          keyboardType="phone-pad"/>
+          keyboardType="phone-pad"
+        />
         <TextInput
           style={styles.input}
           placeholder="Email"
           onChangeText={setEmail}
           value={email}
-          keyboardType="email-address"/>
+          keyboardType="email-address"
+        />
         <TextInput
           style={styles.input}
           placeholder="Address"
           onChangeText={setAddress}
-          value={address}/>
+          value={address}
+        />
         <TextInput
           style={styles.input}
           placeholder="Postal Code"
           onChangeText={setPostalCode}
           value={postalCode}
-          keyboardType="numeric"/>
+          keyboardType="numeric"
+        />
         <TextInput
           style={styles.input}
           placeholder="City"
           onChangeText={setCity}
-          value={city}/>
+          value={city}
+        />
         <View style={styles.buttonContainer}>
           <Button title="S'inscrire" onPress={handleSignup} />
         </View>
@@ -117,6 +129,35 @@ export default function SignupModal() {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: "black",
-  }
-})
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  formContainer: {
+    width: '80%',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  inputContainer: {
+    width: '100%',
+    marginBottom: 20,
+  },
+  label: {
+    marginBottom: 5,
+    fontSize: 16,
+    color: 'white',
+  },
+  input: {
+    width: '100%',
+    height: 40,
+    borderColor: 'gray',
+    borderWidth: 1,
+    paddingHorizontal: 10,
+    textAlign: 'center',
+    color: 'white',
+  },
+  buttonContainer: {
+    width: '100%',
+    marginTop: 20,
+  },
+});

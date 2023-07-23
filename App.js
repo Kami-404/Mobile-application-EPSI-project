@@ -1,20 +1,21 @@
 import React, { useState } from 'react';
-import { View, Button , StyleSheet} from 'react-native';
-import Accueil from './components/screens/accueil/Accueil';
-import Map from './components/screens/carte/Map';
+import { View, Button, StyleSheet } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { createStackNavigator } from '@react-navigation/stack';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import Accueil from './components/screens/accueil/Accueil';
+import Map from './components/screens/carte/Map';
 import ProfileScreen from './components/screens/profils/ProfileScreen';
 import CameraScreen from './components/screens/camera/CameraScreen';
 import LoginScreen from './components/screens/login/LoginScreen';
 import SignupModal from './components/screens/login/SignupModal';
 
 const Tab = createBottomTabNavigator();
+const Stack = createStackNavigator();
 
 export default function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [showSignupModal, setShowSignupModal] = useState(false);
 
   const handleLogin = () => {
     setIsLoggedIn(true);
@@ -22,10 +23,6 @@ export default function App() {
 
   const handleLogout = () => {
     setIsLoggedIn(false);
-  };
-
-  const handleSignup = () => {
-    setShowSignupModal((prevShowSignupModal) => !prevShowSignupModal);
   };
 
   return (
@@ -54,15 +51,12 @@ export default function App() {
           <Tab.Screen name="ProfileScreen" component={ProfileScreen} />
         </Tab.Navigator>
       ) : (
-        <View style={styles.body}>
-            <View style={styles.login}>
-            <LoginScreen onLogin={handleLogin} style={styles.input} />
-            </View>
-            {showSignupModal && <SignupModal />}
-            <View style={styles.inscription} >
-            <Button title="S'inscrire" onPress={handleSignup}  />
-            </View>
-        </View>
+        <Stack.Navigator>
+          <Stack.Screen name="Login">
+            {(props) => <LoginScreen {...props} onSignup={() => setIsLoggedIn(true)} />}
+          </Stack.Screen>
+          <Stack.Screen name="SignupModal" component={SignupModal} options={{ headerShown: false }} />
+        </Stack.Navigator>
       )}
     </NavigationContainer>
   );
@@ -73,11 +67,11 @@ const styles = StyleSheet.create({
     marginTop: 130,
     height: 500,
     width: 300,
-    left:50
+    left: 50,
   },
-  inscription:{
-    width:240,
-    left:80,
-    bottom:150
-  }
-})
+  inscription: {
+    width: 240,
+    left: 80,
+    bottom: 150,
+  },
+});

@@ -1,12 +1,7 @@
 import React, { useState } from 'react';
-import { View, TextInput, Button, StyleSheet } from 'react-native';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import Accueil from '../../screens/accueil/Accueil';
-import ProfileScreen from '../../screens/profils/ProfileScreen';
+import { View, TextInput, Button, StyleSheet, TouchableOpacity, Text } from 'react-native';
 
-const Tab = createBottomTabNavigator();
-
-export default function LoginScreen({ onLogin }) {
+export default function LoginScreen({ onLogin, navigation }) {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
@@ -27,15 +22,17 @@ export default function LoginScreen({ onLogin }) {
 
       if (response.ok) {
         console.log('Connexion réussie:', data);
-        <Tab.Navigator>
-                    <Tab.Screen name="Accueil" component={ProfileScreen} />
-        </Tab.Navigator>
+        onLogin(); // Call onLogin prop here
       } else {
         console.log('Échec de la connexion:', data.error);
       }
     } catch (error) {
       console.error('Erreur de connexion au serveur:', error);
     }
+  };
+
+  const handleSignupPress = () => {
+    navigation.navigate('SignupModal'); // Navigate to SignupModal screen
   };
 
   return (
@@ -46,7 +43,8 @@ export default function LoginScreen({ onLogin }) {
             style={styles.input}
             placeholder="Username"
             onChangeText={setUsername}
-            value={username}/>
+            value={username}
+          />
         </View>
         <View style={styles.inputContainer}>
           <TextInput
@@ -54,10 +52,14 @@ export default function LoginScreen({ onLogin }) {
             placeholder="Password"
             onChangeText={setPassword}
             value={password}
-            secureTextEntry/>
+            secureTextEntry
+          />
         </View>
         <View style={styles.buttonContainer}>
           <Button title="Login" onPress={handleLogin} />
+        </View>
+        <View style={styles.buttonContainer}>
+          <Button title="S'inscrire" onPress={handleSignupPress} />
         </View>
       </View>
     </View>
@@ -83,9 +85,13 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     paddingHorizontal: 10,
     marginBottom: 20,
-    textAlign: "center",
+    textAlign: 'center',
   },
   buttonContainer: {
     width: '100%',
+  },
+  signupText: {
+    color: 'blue',
+    textDecorationLine: 'underline',
   },
 });
