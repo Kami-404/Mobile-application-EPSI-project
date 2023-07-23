@@ -11,57 +11,19 @@ export default function Accueil() {
   const [modalVisible, setModalVisible] = useState(false);
   const [selectedArticle, setSelectedArticle] = useState(null);
 
-const handleSubmit = () => {
-  const newArticle = {
-    title,
-    description,
-    photo,
-    createdAt: new Date(),
+  const handleSubmit = () => {
+    const newArticle = {
+      title,
+      description,
+      photo,
+      createdAt: new Date(),
+    };
+    setArticles([...articles, newArticle]);
+    setTitle("");
+    setDescription("");
+    setPhoto("");
+    setModalVisible(false);
   };
-
-  const ArticleDashboard = {
-    title,
-    description,
-    createdAt: new Date(),
-  };
-
-  fetch('http://localhost:3001/articles', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(newArticle),
-  })
-    .then(response => response.json())
-    .then(data => {
-      console.log('Server response :', data);
-    })
-    .catch(error => {
-      console.error('Error while creating the article :', error);
-    });
-
-    fetch('http://localhost:3001/article', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(ArticleDashboard),
-  })
-    .then(response => response.json())
-    .then(data => {
-      console.log('Server response :', data);
-    })
-    .catch(error => {
-      console.error('Error while creating the article :', error);
-    });
-
-  setArticles([...articles, newArticle]);
-
-  setTitle("");
-  setDescription("");
-  setPhoto("");
-  setModalVisible(false);
-};
 
   const handleDetails = (article) => {
     const createdAt = article.createdAt.toLocaleString();
@@ -83,6 +45,14 @@ const handleSubmit = () => {
 
   return (
     <View style={styles.container}>
+      <View>
+        <Text>Bienvenue sur l'app ARosa-je, vous pouvez ajouter votre plante !!</Text>
+      </View>
+      <Image
+        source={require('./logo.jpeg')}
+        style={styles.logo}
+      />
+
       <View style={styles.header}>
         <TouchableOpacity
           style={styles.addButton}
@@ -144,17 +114,20 @@ const handleSubmit = () => {
             style={styles.input}
             placeholder="Nom de la plante"
             value={title}
-            onChangeText={text => setTitle(text)}/>
+            onChangeText={setTitle}
+          />
           <TextInput
             style={styles.input}
             placeholder="Description"
             value={description}
-            onChangeText={text => setDescription(text)}/>
+            onChangeText={setDescription}
+          />
           <TextInput
             style={styles.input}
             placeholder="Photo"
             value={photo}
-            onChangeText={text => setPhoto(text)}/>
+            onChangeText={setPhoto}
+          />
           <Button title="Ajouter" onPress={handleSubmit} />
           <Button title="Annuler" onPress={handleCloseModal} />
         </View>
@@ -272,5 +245,11 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     marginBottom: 10,
     paddingHorizontal: 10,
+  },
+  logo: {
+    width: 200,
+    height: 100,
+    resizeMode: "contain",
+    marginBottom: 20,
   },
 });

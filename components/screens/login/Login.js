@@ -1,81 +1,65 @@
 import React, { useState } from 'react';
-import { StyleSheet, Text, View, TextInput, TouchableOpacity } from 'react-native';
-import SQLite from 'react-native-sqlite-storage';
-import LoginImage from 'Login_image.js'
+import { View, Text, TextInput, Button, StyleSheet } from 'react-native';
 
-const db = SQLite.openDatabase({name: 'database.db'});
-
-export default function LoginScreen({ navigation }) {
-
+const LoginScreen = ({ navigation }) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
-  function handleLogin() {
-    db.transaction((tx) => {
-      tx.executeSql(
-        'SELECT * FROM users WHERE username = ? AND password = ?',
-        [username, password],
-        (tx, results) => {
-          if (results.rows.length > 0) {
-            navigation.navigate('Home');
-          } else {
-            alert('Username or password is incorrect.');
-          }
-        }
-      );
-    });
-  }
+  const handleLogin = () => {
+    // Ajoutez ici la logique d'authentification
+    // Par exemple, vérification des identifiants dans une base de données
+    // Si les informations d'identification sont correctes, naviguez vers la page d'accueil.
+    // Exemple basique ici, où nous supposons que le nom d'utilisateur et le mot de passe sont "admin"
+    if (username === 'john.smith@gmail.com' && password === 'Amelie2002@') {
+      navigation.navigate('Accueil');
+    } else {
+      alert('Identifiants incorrects');
+    }
+  };
 
   return (
     <View style={styles.container}>
-        <LoginImage />
-      <Text style={styles.title}>Login</Text>
+
+
+      <Text style={styles.title}>Page de connexion</Text>
       <TextInput
         style={styles.input}
-        placeholder="Username"
+        placeholder="Nom d'utilisateur"
         onChangeText={(text) => setUsername(text)}
       />
       <TextInput
         style={styles.input}
-        placeholder="Password"
-        secureTextEntry={true}
+        placeholder="Mot de passe"
+        secureTextEntry
         onChangeText={(text) => setPassword(text)}
       />
-      <TouchableOpacity style={styles.button} onPress={handleLogin}>
-        <Text style={styles.buttonText}>Login</Text>
-      </TouchableOpacity>
+      <Button title="Se connecter" onPress={handleLogin} />
     </View>
   );
-}
+};
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#fff',
+    backgroundColor: '#f0f0f0',
   },
   title: {
     fontSize: 24,
+    fontWeight: 'bold',
     marginBottom: 20,
   },
   input: {
+    width: '80%',
+    height: 40,
+    borderColor: 'gray',
     borderWidth: 1,
-    borderColor: '#777',
-    padding: 8,
-    margin: 10,
-    width: 200,
-  },
-  button: {
-    backgroundColor: 'blue',
+    marginBottom: 10,
     padding: 10,
-    borderRadius: 5,
-    marginTop: 20,
-  },
-  buttonText: {
-    color: '#fff',
-    fontSize: 16,
-    fontWeight: 'bold',
-    textAlign: 'center',
   },
 });
+
+export default LoginScreen;
+
+
