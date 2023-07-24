@@ -8,7 +8,7 @@ export default function LoginScreen({ onLogin, navigation }) {
 
   const handleLogin = async () => {
     try {
-      const response = await fetch('http://192.168.0.22:3001/users', {
+      const response = await fetch('http://localhost:3001/users', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
