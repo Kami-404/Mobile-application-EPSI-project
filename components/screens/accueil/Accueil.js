@@ -13,9 +13,15 @@ export default function Accueil() {
 
   const fetchArticles = async () => {
     try {
-      const response = await fetch('http://192.168.0.22:3001/articles');
+      const response = await fetch('http://localhost:3001/articles');
       const data = await response.json();
-      setArticles(data.data);
+
+      if (data && data.data) {
+        const allArticles = [...data.data.arosaje_app, ...data.data.arosaje_dashboard];
+        setArticles(allArticles);
+      } else {
+        console.error('Error: Response format is incorrect', data);
+      }
     } catch (error) {
       console.error('Error while fetching articles:', error);
     }
@@ -27,7 +33,7 @@ export default function Accueil() {
 
   const handleSubmit = async () => {
     try {
-      const response = await fetch('http://192.168.0.22:3001/articles', {
+      const response = await fetch('http://localhost:3001/articles', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
