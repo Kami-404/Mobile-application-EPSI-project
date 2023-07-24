@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { View, Text, StyleSheet, TextInput, Button, ScrollView, Image, TouchableOpacity, Modal } from 'react-native';
 import Profil_icon2 from "./Profil_icon2";
 import Plantes2 from "./Plantes2";
@@ -11,66 +11,60 @@ export default function Accueil() {
   const [modalVisible, setModalVisible] = useState(false);
   const [selectedArticle, setSelectedArticle] = useState(null);
 
-const handleSubmit = () => {
-  const newArticle = {
-    title,
-    description,
-    photo,
-    createdAt: new Date(),
+  const fetchArticles = async () => {
+    try {
+      const response = await fetch('http://192.168.0.22:3001/articles');
+      const data = await response.json();
+      setArticles(data.data);
+    } catch (error) {
+      console.error('Error while fetching articles:', error);
+    }
   };
 
-  const ArticleDashboard = {
-    title,
-    description,
-    createdAt: new Date(),
+  useEffect(() => {
+    fetchArticles();
+  }, []);
+
+  const handleSubmit = async () => {
+    try {
+      const response = await fetch('http://192.168.0.22:3001/articles', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          title,
+          description,
+          photo,
+        }),
+      });
+      const newArticle = await response.json();
+      console.log('Server response:', newArticle);
+      setArticles([...articles, newArticle.data]);
+    } catch (error) {
+      console.error('Error while creating the article:', error);
+    }
+
+    setTitle("");
+    setDescription("");
+    setPhoto("");
+    setModalVisible(false);
   };
 
-  fetch('http://localhost:3001/articles', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(newArticle),
-  })
-    .then(response => response.json())
-    .then(data => {
-      console.log('Server response :', data);
-    })
-    .catch(error => {
-      console.error('Error while creating the article :', error);
-    });
-
-    fetch('http://localhost:3001/article', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(ArticleDashboard),
-  })
-    .then(response => response.json())
-    .then(data => {
-      console.log('Server response :', data);
-    })
-    .catch(error => {
-      console.error('Error while creating the article :', error);
-    });
-
-  setArticles([...articles, newArticle]);
-
-  setTitle("");
-  setDescription("");
-  setPhoto("");
-  setModalVisible(false);
-};
 
   const handleDetails = (article) => {
     const createdAt = article.createdAt.toLocaleString();
     alert(`Article créé le : ${createdAt}`);
   };
 
-  const handleDelete = (article) => {
-    const updatedArticles = articles.filter((item) => item !== article);
-    setArticles(updatedArticles);
+  const handleDelete = async (article) => {
+    try {
+      await article.destroy();
+      const updatedArticles = articles.filter((item) => item !== article);
+      setArticles(updatedArticles);
+    } catch (error) {
+      console.error('Error while deleting the article:', error);
+    }
   };
 
   const handleOpenModal = () => {
@@ -93,7 +87,7 @@ const handleSubmit = () => {
 
       <ScrollView style={styles.articlesContainer}>
         <View style={styles.articleList}>
-          {articles.map((article, index) => (
+          {articles && articles.map((article, index) => (
             <View style={styles.articleContainer} key={index}>
               <View style={styles.articleHeader}>
                 <View style={styles.profiltop}>
