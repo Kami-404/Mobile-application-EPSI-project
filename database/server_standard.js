@@ -43,6 +43,58 @@ const ArticleApp = sequelizeApp.define('ArticleApp', {
   timestamps: false,
 });
 
+const User = sequelizeApp.define('User', {
+  id: {
+    type: DataTypes.INTEGER,
+    primaryKey: true,
+    autoIncrement: true,
+    allowNull: false,
+  },
+  username: {
+    type: DataTypes.STRING,
+    allowNull: false,
+  },
+  password: {
+    type: DataTypes.STRING,
+    allowNull: false,
+  },
+  firstName: {
+    type: DataTypes.STRING,
+    allowNull: false,
+  },
+  lastName: {
+    type: DataTypes.STRING,
+    allowNull: false,
+  },
+  age: {
+    type: DataTypes.INTEGER,
+    allowNull: true,
+  },
+  phoneNumber: {
+    type: DataTypes.STRING,
+    allowNull: true,
+  },
+  email: {
+    type: DataTypes.STRING,
+    allowNull: true,
+  },
+  address: {
+    type: DataTypes.STRING,
+    allowNull: true,
+  },
+  postalCode: {
+    type: DataTypes.STRING,
+    allowNull: true,
+  },
+  city: {
+    type: DataTypes.STRING,
+    allowNull: true,
+  },
+}, {
+  tableName: 'users',
+  timestamps: false,
+});
+
 const sequelizeDashboard = new Sequelize('arosaje_dashboard', 'root', '', {
   host: 'localhost',
   dialect: 'mysql',
@@ -122,6 +174,41 @@ app.get('/articles', async (req, res) => {
   }
 });
 
+app.get('/users', async (req, res) => {
+  try {
+    const users = await User.findAll();
+    res.json({ data: users });
+  } catch (err) {
+    console.error('Error while fetching users', err);
+    res.status(500).json({ error: 'Error while fetching users' });
+  }
+});
+
+app.post('/users', async (req, res) => {
+  const { username, password, firstName, lastName, age, phoneNumber, email, address, postalCode, city } = req.body;
+
+  try {
+    const newUser = await User.create({
+      username,
+      password,
+      firstName,
+      lastName,
+      age,
+      phoneNumber,
+      email,
+      address,
+      postalCode,
+      city,
+    });
+
+    console.log('New user successfully added to arosaje_app with ID:', newUser.id);
+
+    res.status(201).json({ data: newUser });
+  } catch (err) {
+    console.error('Error while adding user to arosaje_app', err);
+    res.status(500).json({ error: 'Error while adding user to arosaje_app' });
+  }
+});
 
 app.post('/articles', async (req, res) => {
   const { title, description, photo } = req.body;

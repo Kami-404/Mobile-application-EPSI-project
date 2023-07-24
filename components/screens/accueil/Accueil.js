@@ -13,7 +13,7 @@ export default function Accueil() {
 
   const fetchArticles = async () => {
     try {
-      const response = await fetch('http://localhost:3001/articles');
+      const response = await fetch('http://192.168.0.22:3001/articles');
       const data = await response.json();
 
       if (data && data.data) {
@@ -33,7 +33,7 @@ export default function Accueil() {
 
   const handleSubmit = async () => {
     try {
-      const response = await fetch('http://localhost:3001/articles', {
+      const response = await fetch('http://192.168.0.22:3001/articles', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
