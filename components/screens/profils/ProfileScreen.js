@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import { View, Text, Image, TouchableOpacity, StyleSheet, Modal, TextInput, Button } from 'react-native';
+import MailScreen from './MailScreen';
+
 
 const ProfileScreen = () => {
   const [activeTab, setActiveTab] = useState('activite');
@@ -9,6 +11,17 @@ const ProfileScreen = () => {
   const [profilePhone, setProfilePhone] = useState('johnsmit@gmail.com');
   const [profileImage, setProfileImage] = useState(require('./image2.png'));
   const [aboutMe, setAboutMe] = useState('');
+  const [showMailScreen, setShowMailScreen] = useState(false);
+
+  // Fonction pour ouvrir le formulaire de messagerie
+  const handleOpenMailModal = () => {
+    setShowMailScreen(true);
+  };
+
+  // Fonction pour fermer le formulaire de messagerie
+  const handleCloseMailModal = () => {
+    setShowMailScreen(false);
+  };
 
   const handleTabChange = (tab) => {
     setActiveTab(tab);
@@ -22,70 +35,81 @@ const ProfileScreen = () => {
     setShowModal(false);
   };
 
-return (
-  <View style={styles.container}>
-    <View style={styles.topSection}>
-      <TouchableOpacity onPress={handleEditProfile} style={styles.editButton}>
-        <Text style={styles.editButtonText}>...</Text>
-      </TouchableOpacity>
-      <View style={styles.profileImageContainer}>
-        <Image source={profileImage} style={styles.profileImage} />
+  return (
+    <View style={styles.container}>
+      <View style={styles.topSection}>
+        <TouchableOpacity onPress={handleEditProfile} style={styles.editButton}>
+          <Text style={styles.editButtonText}>...</Text>
+        </TouchableOpacity>
+        <View style={styles.profileImageContainer}>
+          <Image source={profileImage} style={styles.profileImage} />
+        </View>
+        <Text style={styles.profileName}>{profileName}</Text>
       </View>
-      <Text style={styles.profileName}>{profileName}</Text>
+
+      <View style={styles.bottomSection}>
+        <TouchableOpacity
+          style={[styles.tabButton, activeTab === 'activite' ? styles.activeTab : null]}
+          onPress={() => handleTabChange('activite')}>
+          <Text style={styles.tabButtonText}>Activité</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={[styles.tabButton, activeTab === 'a_propos' ? styles.activeTab : null]}
+          onPress={() => handleTabChange('a_propos')}>
+          <Text style={styles.tabButtonText}>A propos</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={[styles.tabButton, activeTab === 'Contacts' ? styles.activeTab : null]}
+          onPress={() => handleTabChange('Contacts')}>
+          <Button title="Messagerie" onPress={handleOpenMailModal} />
+        </TouchableOpacity>
+      </View>
+
+      {activeTab === 'activite' ? (
+        <View style={styles.contentContainer}>
+          <Text>Page activité</Text>
+        </View>
+      ) : (
+        <View style={styles.contentContainer}>
+          <Text>{aboutMe}</Text>
+        </View>
+      )}
+
+      {showMailScreen && <MailScreen onClose={handleCloseMailModal} />}
+
+      <Modal visible={showModal} animationType="slide">
+        <View style={styles.modalContainer}>
+          <Text style={styles.modalTitle}>Modifier le profil</Text>
+          <TextInput
+            style={styles.input}
+            value={profileName}
+            onChangeText={setProfileName}
+            placeholder="Nom du profil"
+          />
+          <TextInput
+            style={styles.input}
+            value={profileNum}
+            onChangeText={setProfileNum}
+            placeholder="Numéro du profil"
+          />
+          <TextInput
+            style={styles.input}
+            value={profilePhone}
+            onChangeText={setProfilePhone}
+            placeholder="Mail du profil"
+          />
+          <TextInput
+            style={styles.input}
+            value={aboutMe}
+            onChangeText={setAboutMe}
+            placeholder="A propos de moi"
+            multiline
+          />
+          <Button title="Enregistrer" onPress={handleSaveProfile} />
+          <Button title="Annuler" onPress={() => setShowModal(false)} />
+        </View>
+      </Modal>
     </View>
-
-    <View style={styles.bottomSection}>
-      <TouchableOpacity
-        style={[styles.tabButton, activeTab === 'activite' ? styles.activeTab : null]}
-        onPress={() => handleTabChange('activite')}>
-        <Text style={styles.tabButtonText}>Activité</Text>
-      </TouchableOpacity>
-      <TouchableOpacity
-        style={[styles.tabButton, activeTab === 'a_propos' ? styles.activeTab : null]}
-        onPress={() => handleTabChange('a_propos')}>
-        <Text style={styles.tabButtonText}>A propos</Text>
-      </TouchableOpacity>
-    </View>
-
-    {activeTab === 'activite' ? (
-      <View style={styles.contentContainer}>
-        <Text>Page activité</Text>
-      </View>
-    ) : (
-      <View style={styles.contentContainer}>
-        <Text>{aboutMe}</Text>
-      </View>
-    )}
-
-    <Modal visible={showModal} animationType="slide">
-      <View style={styles.modalContainer}>
-        <Text style={styles.modalTitle}>Modifier le profil</Text>
-        <TextInput
-          style={styles.input}
-          value={profileName}
-          onChangeText={setProfileName}
-          placeholder="Nom du profil"/>
-        <TextInput
-          style={styles.input}
-          value={profileNum}
-          onChangeText={setProfileNum}
-          placeholder="Numéro du profil"/>
-        <TextInput
-          style={styles.input}
-          value={profilePhone}
-          onChangeText={setProfilePhone}
-          placeholder="Mail du profil"/>
-        <TextInput
-          style={styles.input}
-          value={aboutMe}
-          onChangeText={setAboutMe}
-          placeholder="A propos de moi"
-          multiline/>
-        <Button title="Enregistrer" onPress={handleSaveProfile} />
-        <Button title="Annuler" onPress={() => setShowModal(false)} />
-      </View>
-    </Modal>
-  </View>
   );
 };
 
