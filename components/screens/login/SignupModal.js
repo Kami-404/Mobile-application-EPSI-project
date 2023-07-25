@@ -143,7 +143,6 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     paddingHorizontal: 10,
     textAlign: 'center',
-    color: 'white',
   },
   buttonContainer: {
     width: '100%',
