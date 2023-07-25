@@ -44,8 +44,7 @@ export default function LoginScreen({ onLogin, navigation }) {
             style={styles.input}
             placeholder="Username"
             onChangeText={setUsername}
-            value={username}
-          />
+            value={username}/>
         </View>
         <View style={styles.inputContainer}>
           <TextInput
@@ -53,8 +52,7 @@ export default function LoginScreen({ onLogin, navigation }) {
             placeholder="Password"
             onChangeText={setPassword}
             value={password}
-            secureTextEntry
-          />
+            secureTextEntry/>
         </View>
         <View style={styles.buttonContainer}>
           <Button title="Login" onPress={handleLogin} />

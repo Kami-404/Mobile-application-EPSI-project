@@ -16,7 +16,7 @@ export default function SignupModal({ onSignup }) {
 
   const handleSignup = async () => {
     if (password !== confirmPassword) {
-      console.log("Les mots de passe ne correspondent pas");
+      console.log("Passwords don't match");
       return;
     }
 
@@ -34,13 +34,13 @@ export default function SignupModal({ onSignup }) {
       const data = await response.json();
 
       if (response.ok) {
-        console.log('Inscription réussie:', data);
+        console.log('Successful registration:', data);
         onSignup();
       } else {
-        console.log('Erreur lors de l\'inscription:', data.error);
+        console.log('Registration error:', data.error);
       }
     } catch (error) {
-      console.error('Erreur de connexion au serveur:', error);
+      console.error('Server connection error:', error);
     }
   };
 
@@ -51,74 +51,63 @@ export default function SignupModal({ onSignup }) {
           style={styles.input}
           placeholder="Username"
           onChangeText={setUsername}
-          value={username}
-        />
+          value={username}/>
         <TextInput
           style={styles.input}
           placeholder="Password"
           onChangeText={setPassword}
           value={password}
-          secureTextEntry
-        />
+          secureTextEntry/>
         <TextInput
           style={styles.input}
           placeholder="Confirm Password"
           onChangeText={setConfirmPassword}
           value={confirmPassword}
-          secureTextEntry
-        />
+          secureTextEntry/>
         <TextInput
           style={styles.input}
           placeholder="First Name"
           onChangeText={setFirstName}
-          value={firstName}
-        />
+          value={firstName}/>
         <TextInput
           style={styles.input}
           placeholder="Last Name"
           onChangeText={setLastName}
-          value={lastName}
-        />
+          value={lastName}/>
         <TextInput
           style={styles.input}
           placeholder="Age"
           onChangeText={setAge}
           value={age}
-          keyboardType="numeric"
-        />
+          keyboardType="numeric"/>
         <TextInput
           style={styles.input}
           placeholder="Phone Number"
           onChangeText={setPhoneNumber}
           value={phoneNumber}
-          keyboardType="phone-pad"
-        />
+          keyboardType="phone-pad"/>
         <TextInput
           style={styles.input}
           placeholder="Email"
           onChangeText={setEmail}
           value={email}
-          keyboardType="email-address"
-        />
+          keyboardType="email-address"/>
         <TextInput
           style={styles.input}
           placeholder="Address"
           onChangeText={setAddress}
-          value={address}
-        />
+          value={address}/>
         <TextInput
           style={styles.input}
           placeholder="Postal Code"
           onChangeText={setPostalCode}
           value={postalCode}
-          keyboardType="numeric"
-        />
+          keyboardType="numeric"/>
         <TextInput
           style={styles.input}
           placeholder="City"
           onChangeText={setCity}
-          value={city}
-        />
+          value={city}/>
         <View style={styles.buttonContainer}>
           <Button title="S'inscrire" onPress={handleSignup} />
         </View>

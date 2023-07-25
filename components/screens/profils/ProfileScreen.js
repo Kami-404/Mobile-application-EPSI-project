@@ -19,7 +19,6 @@ const ProfileScreen = () => {
   };
 
   const handleSaveProfile = () => {
-    // Note pour flobert : ici faut appeler l'api pour enregistrer les modifs dans le back
     setShowModal(false);
   };
 

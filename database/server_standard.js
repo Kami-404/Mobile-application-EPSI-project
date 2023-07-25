@@ -130,7 +130,7 @@ const ArticleDashboard = sequelizeDashboard.define('ArticleDashboard', {
 (async () => {
   try {
     await sequelizeApp.authenticate();
-    console.log('Connection to the database arosaje_app has been established successfully.');
+    console.log('Connection to the database arosaje_app successfully !');
     await sequelizeApp.sync();
   } catch (error) {
     console.error('Unable to connect to the database arosaje_app:', error);
@@ -140,7 +140,7 @@ const ArticleDashboard = sequelizeDashboard.define('ArticleDashboard', {
 (async () => {
   try {
     await sequelizeApp.authenticate();
-    console.log('Connection to the database arosaje_app has been established successfully.');
+    console.log('Connection to the database arosaje_app successfully !');
     await sequelizeApp.sync();
   } catch (error) {
     console.error('Unable to connect to the database arosaje_app:', error);
@@ -150,7 +150,7 @@ const ArticleDashboard = sequelizeDashboard.define('ArticleDashboard', {
 (async () => {
   try {
     await sequelizeDashboard.authenticate();
-    console.log('Connection to the database arosaje_dashboard has been established successfully.');
+    console.log('Connection to the database arosaje_dashboard successfully !');
     await sequelizeDashboard.sync();
   } catch (error) {
     console.error('Unable to connect to the database arosaje_dashboard:', error);
